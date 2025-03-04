@@ -1,3 +1,14 @@
-# created by virtualenv automatically
+# Ignore virtual environment
 .venv/
 .idea/
+
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
