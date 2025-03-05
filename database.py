@@ -1,9 +1,11 @@
 import sqlite3
 from cryptography.fernet import Fernet
+import config
 
-DB_NAME = "wb_bot.sqlite"
 
-KEY=Fernet.generate_key()
+DB_NAME = config.DB_NAME
+
+KEY=config.ENCRYPTION_KEY
 cipher = Fernet(KEY)
 
 def init_db():
