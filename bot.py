@@ -5,8 +5,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 
 import config
-from handlers import start, auth, products
-from keyboards import reply
+from handlers import start, auth, products, barcodes
 
 # Enable logging
 logging.basicConfig(level=logging.INFO)
@@ -20,6 +19,7 @@ dp = Dispatcher(storage=MemoryStorage())
 dp.include_router(start.router)
 dp.include_router(auth.router)
 dp.include_router(products.router)
+dp.include_router(barcodes.router)
 
 async def main():
     """Start polling for Telegram bot."""
