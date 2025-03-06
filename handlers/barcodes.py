@@ -1,25 +1,34 @@
 from aiogram import Router
-from aiogram.types import CallbackQuery, BufferedInputFile
+from aiogram.types import CallbackQuery
 
-from utils.barcode_generator import generate_barcode
+from utils.barcode_generator import generate_ean13
+
 
 router = Router()
 
-@router.callback_query(lambda call: call.data.startswith("product_"))
+@router.callback_query(lambda call: call.data.startswith("size_"))
 async def handle_product(call: CallbackQuery):
-    nm_id = call.data.removeprefix("product_")
 
-    barcode_fileobj = generate_barcode(nm_id)
+    parts = call.data.split("_") # ["size", nmID, chrtID, sku]
+    if len(parts) < 4:
+        await call.message.answer("❌ Неверный формат callback_data.")
+        await call.answer()
+        return
 
-    barcode_bytes = barcode_fileobj.getvalue()
+    nm_id = parts[1]
+    chrt_id = parts[2]
+    sku_13 = parts[3]
 
-    file_for_telegram = BufferedInputFile(
-        file=barcode_bytes
-        , filename=f"{nm_id}.png")
+    if len(sku_13) != 13 or not sku_13.isdigit():
+        await call.message.answer("❌ SKU не является 13-значным числом!")
+        await call.answer()
+        return
+
+    barcode_png = generate_ean13(sku_13)
 
     await call.message.answer_photo(
-        photo=file_for_telegram,
-        caption=f"Штрих-код для nmID {nm_id}"
+        photo=barcode_png,
+        caption=f"EAN-13 для SKU {sku_13}\n Товар nmID{nm_id}\n chrtID {chrt_id}",
     )
 
     await call.answer()
