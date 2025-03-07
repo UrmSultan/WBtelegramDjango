@@ -1,10 +1,10 @@
 from aiogram import Router
-from aiogram.filters import callback_data
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 
 import database
 from keyboards.reply import auth_keyboard
-from utils.wildberries import get_wb_products
+from utils.parse_product import parse_characteristic
+from api.products import get_wb_products
 
 router = Router()
 
@@ -30,15 +30,22 @@ async def choose_product(message: Message):
 
     user_products[user_id] = products
 
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(
-                text=product.get("title", "Без названия"),
-                callback_data=f"product_{product['nmID']}"
-            )]
-            for product in products[:10]
-        ]
-    )
+    inline_rows = []
+    for product in products[:10]:
+        nm_id=product["nmID"]
+        title = product.get("title", "Без названия")
+        color = parse_characteristic(product, "Цвет")
+
+        btn_text = f"{title} / {color}"
+
+        inline_rows.append([
+            InlineKeyboardButton(
+                text=btn_text,
+                callback_data=f"product_{nm_id}"
+            )
+        ])
+    keyboard = InlineKeyboardMarkup(inline_keyboard=inline_rows)
+
     await message.answer("📦 Ваши товары:", reply_markup=keyboard)
 
 @router.callback_query(lambda call: call.data.startswith("product_"))

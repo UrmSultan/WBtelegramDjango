@@ -1,34 +1,61 @@
 from aiogram import Router
 from aiogram.types import CallbackQuery
 
-from utils.barcode_generator import generate_ean13
-
+import database
+from api import get_supplier_name
+from handlers.products import user_products
+from utils.barcode_with_info import generate_ean13_with_info
+from utils.parse_product import parse_characteristic
 
 router = Router()
 
 @router.callback_query(lambda call: call.data.startswith("size_"))
-async def handle_product(call: CallbackQuery):
-
+async def callback_size_barcode(call: CallbackQuery):
     parts = call.data.split("_") # ["size", nmID, chrtID, sku]
     if len(parts) < 4:
         await call.message.answer("❌ Неверный формат callback_data.")
         await call.answer()
         return
 
+    user_id = call.from_user.id
     nm_id = parts[1]
-    chrt_id = parts[2]
     sku_13 = parts[3]
 
-    if len(sku_13) != 13 or not sku_13.isdigit():
-        await call.message.answer("❌ SKU не является 13-значным числом!")
+    # Get product from cache
+    products = user_products.get(user_id, [])
+    product = next((p for p in products if str(p["nmID"]) == nm_id), None)
+    if not product:
+        await call.message.answer("❌ Не могу найти товар в кэше. Попробуйте снова.")
         await call.answer()
         return
 
-    barcode_png = generate_ean13(sku_13)
+    # Get data from product
+    vendor_code = product.get("vendorCode", "N/A")
+    title = product.get("title", "Без названия")
+    brand = product.get("brand", "N/A")
+    color = parse_characteristic(product, "Цвет")
+    gender = parse_characteristic(product, "Пол")
+    material = parse_characteristic(product, "материал верха")
 
+    # Request sole proprietor(ИП)
+    user_token = database.get_user_token(user_id)
+    supplier_name = await get_supplier_name(user_token)
+
+    # Generate img with info
+    barcode_image = generate_ean13_with_info(
+        sku_13=sku_13,
+        vendor_code=vendor_code,
+        title=title,
+        brand=brand,
+        color=color,
+        gender=gender,
+        material=material,
+        supplier_name=supplier_name
+    )
+
+    # Send image to user
     await call.message.answer_photo(
-        photo=barcode_png,
-        caption=f"EAN-13 для SKU {sku_13}\n Товар nmID{nm_id}\n chrtID {chrt_id}",
+        photo=barcode_image
     )
 
     await call.answer()

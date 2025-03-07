@@ -19,3 +19,4 @@ async def get_wb_products(token: str):
                 data = await response.json()
                 return data.get("cards", [])
             return []
+
