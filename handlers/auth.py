@@ -33,13 +33,14 @@ async def process_wb_token(message: Message, state: FSMContext):
     database.save_user_token(user_id, wb_token)
     await state.clear()
     await message.answer(
-        "✅ Авторизация прошла успешно!",
+        "✅ Авторизация прошла успешно! Теперь вы можете выбрать товар.",
         reply_markup=main_menu_keyboard()
     )
 
 async def validate_wb_token(token: str) -> bool:
-    url = "https://suppliers-api.wildberries.ru/ping"
+    url = "https://common-api.wildberries.ru/ping"
     headers = {"Authorization": f"Bearer {token}"}
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as response:
+            print(f"🔍 Проверка токена: {token} → {response.status}")
             return response.status == 200
