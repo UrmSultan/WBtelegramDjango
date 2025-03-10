@@ -12,7 +12,6 @@ async def get_wb_products(token: str):
             "filter": {}
         }
     }
-
     async with aiohttp.ClientSession() as session:
         async with session.post(url,headers=headers, json=payload) as response:
             if response.status == 200:

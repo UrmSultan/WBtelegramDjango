@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 
 import database
 from api import get_supplier_name
-from handlers.products import user_products
+from handlers.storage import user_products
 from utils.barcode_with_info import generate_ean13_with_info
 from utils.parse_product import parse_characteristic
 

@@ -1,12 +1,13 @@
 import logging
 import asyncio
+
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 
 import config
 from api.session import close_session
-from handlers import start, auth, products, barcodes
+from handlers import all_routers
 
 # Enable logging
 logging.basicConfig(level=logging.INFO)
@@ -17,11 +18,8 @@ bot = Bot(token=config.BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML"
 dp = Dispatcher(storage=MemoryStorage())
 
 # Register handlers
-dp.include_router(start.router)
-dp.include_router(auth.router)
-dp.include_router(products.router)
-dp.include_router(barcodes.router)
-
+for router in all_routers:
+    dp.include_router(router)
 
 async def main():
     """Start polling for Telegram bot."""
