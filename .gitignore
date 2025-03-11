@@ -13,3 +13,5 @@ Thumbs.db
 # Ignore environment files
 .env
 wb_bot.sqlite
+wb_bot
+cryptoKey.py

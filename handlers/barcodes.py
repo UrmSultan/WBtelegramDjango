@@ -44,11 +44,9 @@ async def callback_size_barcode(call: CallbackQuery):
     # Generate img with info
     barcode_image = generate_ean13_with_info(
         sku_13=sku_13,
-        vendor_code=vendor_code,
         title=title,
         brand=brand,
         color=color,
-        gender=gender,
         material=material,
         supplier_name=supplier_name
     )
