@@ -8,7 +8,7 @@ async def get_wb_products(token: str):
     }
     payload = {
         "settings": {
-            "cursor": {"limit": 10},
+            "cursor": {"limit": 100},
             "filter": {}
         }
     }
