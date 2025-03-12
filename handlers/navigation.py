@@ -4,7 +4,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQu
 from handlers.storage import user_products, user_page
 
 router = Router()
-user_page = {}
 
 def generate_products_keyboard(products, page: int):
     per_page = 5

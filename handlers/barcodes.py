@@ -4,8 +4,8 @@ from aiogram.types import CallbackQuery
 import database
 from api import get_supplier_name
 from handlers.storage import user_products
-from utils.barcode_with_info import generate_ean13_with_info
-from utils.parse_product import parse_characteristic
+from utils import generate_ean13_with_info
+from utils import parse_characteristic
 
 router = Router()
 
@@ -30,12 +30,13 @@ async def callback_size_barcode(call: CallbackQuery):
         return
 
     # Get data from product
-    vendor_code = product.get("vendorCode", "N/A")
     title = product.get("title", "Без названия")
     brand = product.get("brand", "N/A")
     color = parse_characteristic(product, "Цвет")
-    gender = parse_characteristic(product, "Пол")
     material = parse_characteristic(product, "материал верха")
+
+    # gender = parse_characteristic(product, "Пол")
+    # vendor_code = product.get("vendorCode", "N/A")
 
     # Request sole proprietor(ИП)
     user_token = database.get_user_token(user_id)

@@ -76,7 +76,7 @@ def get_user_token(user_id:int) -> str:
     conn.close()
 
     token =  row[0] if row else None
-    print(f"🔍 Полученный токен для user_id {user_id}: {token}")
+    #print(f"🔍 Полученный токен для user_id {user_id}: {token}")
     return token
 
 

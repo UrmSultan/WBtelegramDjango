@@ -1,9 +1,10 @@
 import io
 import barcode
+import textwrap
 from barcode.writer import ImageWriter
 from PIL import Image, ImageDraw, ImageFont
 from aiogram.types import BufferedInputFile
-import textwrap
+
 
 # Размеры этикеток (в пикселях при 300 DPI)
 LABEL_SIZES = {

@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
-from handlers.products import user_products
+from handlers.storage import user_products
 
 router = Router()
 

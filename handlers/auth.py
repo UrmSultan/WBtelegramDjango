@@ -5,7 +5,7 @@ from aiogram.fsm.state import StatesGroup, State
 
 import database
 import aiohttp
-from keyboards.reply import main_menu_keyboard
+from keyboards import main_menu_keyboard
 
 router = Router()
 

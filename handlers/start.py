@@ -3,7 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 
 import database
-from keyboards.reply import main_menu_keyboard, auth_keyboard
+from keyboards import main_menu_keyboard, auth_keyboard
 
 router = Router()
 
