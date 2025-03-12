@@ -5,7 +5,7 @@ from .products import router as products_router
 from .search import router as search_router
 from .selection import router as selection_router
 from .start import router as start_router
-
+from .help import router as help_command_router
 
 all_routers = [
     auth_router,
@@ -14,5 +14,6 @@ all_routers = [
     products_router,
     search_router,
     selection_router,
-    start_router
+    start_router,
+    help_command_router
 ]
