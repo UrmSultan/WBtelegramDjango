@@ -2,10 +2,13 @@ from aiogram import Router
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from utils import parse_characteristic
+
+
 import database
 from api import search_wb_products
+from utils import parse_characteristic
 
+from handlers.storage import user_products
 router = Router()
 
 # States for search query
@@ -39,6 +42,7 @@ async def process_search_query(message: Message, state: FSMContext):
         await state.clear()
         return
 
+    user_products[user_id] = products
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
