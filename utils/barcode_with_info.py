@@ -20,7 +20,8 @@ def generate_ean13_with_info(
         color: str,
         material: str,
         supplier_name: str,
-        label_size="small"
+        label_size="small",
+        size_label: str = None
 ) -> BufferedInputFile:
     width, height = LABEL_SIZES.get(label_size, LABEL_SIZES["small"])
 
@@ -46,11 +47,15 @@ def generate_ean13_with_info(
     text_lines = [
         f"{supplier_name}",
         f"{title}",
-        f"Цвет: {color}",
-        f"Бренд: {brand}",
-        f"Состав: {material}",
     ]
-
+    if size_label:
+        text_lines.append(f"Размер: {size_label.replace('-',' ')}")
+    if color:
+        text_lines.append(f"Цвет: {color}")
+    if brand:
+        text_lines.append(f"Бренд: {brand}")
+    if material:
+        text_lines.append(f"Состав: {material}")
     # Перенос строк для длинных текстов
     wrapped_lines = []
     for line in text_lines:

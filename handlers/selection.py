@@ -29,7 +29,7 @@ async def callback_product(call:CallbackQuery):
             [
                 InlineKeyboardButton(
                     text=size.get("techSize", "NoSize"),
-                    callback_data=f"size_{nm_id}_{size['chrtID']}_{size['skus'][0]}"
+                    callback_data=f"size_{nm_id}_{size['chrtID']}_{size['skus'][0]}_{size['techSize'].replace(' ', '-')}"
                 )
             ]
             for size in sizes if size.get("skus")

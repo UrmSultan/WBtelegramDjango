@@ -18,7 +18,7 @@ class SearchState(StatesGroup):
 @router.callback_query(lambda call: call.data == "search")
 async def start_search_callback(call: CallbackQuery, state: FSMContext):
 
-    await call.message.answer("🔍 Введите название, артикул или цвет товара:")
+    await call.message.answer("🔍 Введите артикул или артикул продавца:")
     await state.set_state(SearchState.waiting_for_query)
 
     await call.answer()

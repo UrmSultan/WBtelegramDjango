@@ -20,6 +20,7 @@ async def callback_size_barcode(call: CallbackQuery):
     user_id = call.from_user.id
     nm_id = parts[1]
     sku_13 = parts[3]
+    size_label = parts[4]
 
     # Get product from cache
     products = user_products.get(user_id, [])
@@ -31,7 +32,7 @@ async def callback_size_barcode(call: CallbackQuery):
 
     # Get data from product
     title = product.get("title", "Без названия")
-    brand = product.get("brand", "N/A")
+    brand = product.get("brand")
     color = parse_characteristic(product, "Цвет")
     material = parse_characteristic(product, "материал верха")
 
@@ -49,7 +50,8 @@ async def callback_size_barcode(call: CallbackQuery):
         brand=brand,
         color=color,
         material=material,
-        supplier_name=supplier_name
+        supplier_name=supplier_name,
+        size_label=size_label
     )
 
     # Send image to user
