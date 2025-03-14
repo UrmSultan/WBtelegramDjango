@@ -49,7 +49,7 @@ def generate_ean13_with_info(
         f"{title}",
     ]
     if size_label:
-        text_lines.append(f"Размер: {size_label.replace('-',' ')}")
+        text_lines.append(f"Размер: {size_label}")
     if color:
         text_lines.append(f"Цвет: {color}")
     if brand:
