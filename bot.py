@@ -21,7 +21,7 @@ for router in all_routers:
     dp.include_router(router)
 
 async def main():
-    """Start polling for Telegram bot."""
+    """ بِسۡمِ ٱللَّهِ ٱلرَّحۡمَـٰنِ ٱلرَّحِيمِ"""
     logging.info("Starting bot...")
     try:
         await dp.start_polling(bot)
