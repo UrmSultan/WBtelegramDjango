@@ -31,7 +31,7 @@ async def callback_size_barcode(call: CallbackQuery):
         return
 
     # Get data from product
-    title = product.get("title", "Без названия")
+    title = product.get("title") or product.get("subjectName")  or "Без названия"
     brand = product.get("brand")
     color = parse_characteristic(product, "Цвет")
     material = parse_characteristic(product, "материал верха")

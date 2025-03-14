@@ -59,7 +59,7 @@ def generate_ean13_with_info(
     # Перенос строк для длинных текстов
     wrapped_lines = []
     for line in text_lines:
-        wrapped_lines.extend(textwrap.wrap(line, width=40))  # Регулируем ширину строки
+        wrapped_lines.extend(textwrap.wrap(line, width=38))  # Регулируем ширину строки
 
     # Рисуем текст (ориентация слева, но с отступом)
     x_text = int(width * 0.05)  # Отступ слева
