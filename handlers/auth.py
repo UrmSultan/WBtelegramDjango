@@ -44,3 +44,13 @@ async def validate_wb_token(token: str) -> bool:
         async with session.get(url, headers=headers) as response:
             print(f"🔍 Проверка токена: {token} → {response.status}")
             return response.status == 200
+
+@router.message(lambda message: message.text == "🚪 Выйти из аккаунта")
+async def logout(message: Message):
+    user_id = message.from_user.id
+
+    database.delete_user_token(user_id)
+    await message.answer(
+        "✅ Вы успешно вышли из аккаунта.\nТеперь, если понадобится, авторизуйтесь заново:",
+        reply_markup=main_menu_keyboard()
+    )

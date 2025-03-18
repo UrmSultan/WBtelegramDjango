@@ -36,8 +36,8 @@ async def choose_product(message: Message):
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🔍 Поиск товара", callback_data="search")],
-            [InlineKeyboardButton(text="🔍📋 Показать все", callback_data="show_all")]
+            [InlineKeyboardButton(text="🔍📋 Показать все", callback_data="show_all")],
+            [InlineKeyboardButton(text="🔍 Поиск товара", callback_data="search")]
         ]
     )
 

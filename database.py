@@ -79,5 +79,27 @@ def get_user_token(user_id:int) -> str:
     #print(f"🔍 Полученный токен для user_id {user_id}: {token}")
     return token
 
+def delete_user_token(user_id:int):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT tokens.token_id
+        FROM tokens
+        JOIN user_tokens ON tokens.token_id = user_tokens.token_id
+        WHERE user_tokens.user_id = ?
+    """, (user_id,))
+    row = cursor.fetchone()
+
+    if row:
+        token_id = row[0]
+
+        cursor.execute("DELETE FROM user_tokens WHERE user_id = ?", (user_id,))
+        cursor.execute("SELECT COUNT(*) FROM user_tokens WHERE token_id = ?", (token_id,))
+        if cursor.fetchone()[0]:
+            cursor.execute("DELETE FROM tokens WHERE wb_token = ?", (token_id,))
+
+        conn.commit()
+    conn.close()
 
 init_db()

@@ -6,12 +6,11 @@ from keyboards import main_menu_keyboard, auth_keyboard
 
 router = Router()
 
-@router.message()
+@router.message(lambda message: message.text not in ["ℹ️ Помощь", "/help"])
 async def start_handler(message: Message):
     """ بِسۡمِ ٱللَّهِ ٱلرَّحۡمَـٰنِ ٱلرَّحِيمِ"""
     user_id = message.from_user.id
     wb_token = database.get_user_token(user_id)
-
     welcome_text = (
         "👋 Здравствуйте! Я бот для работы с Wildberries.\n"
         "Я помогу вам управлять товарами, печатать штрих-коды и многое другое! 🚀\n"
