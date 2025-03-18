@@ -29,7 +29,7 @@ HELP_TEXT = {
     )
 }
 
-@router.message(lambda message: message.text == "ℹ️ Помощь")
+@router.message(lambda message: message.text == "ℹ️ Инструкция")
 async def help_command(message: Message):
     image_path="static/help_example.png"
 

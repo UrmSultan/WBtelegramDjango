@@ -13,7 +13,7 @@ def main_menu_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text="📦 Выбрать товар")],
-            [KeyboardButton(text="ℹ️ Помощь")],
+            [KeyboardButton(text="ℹ️ Инструкция")],
             [KeyboardButton(text="🚪 Выйти из аккаунта")]
         ],
         resize_keyboard=True
